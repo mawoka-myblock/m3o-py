@@ -9,6 +9,7 @@ pytest = "*"
 pytest-asyncio = "*"
 aiohttp = "*"
 coverage = "*"
+pydantic = "*"
 
 [dev-packages]
 

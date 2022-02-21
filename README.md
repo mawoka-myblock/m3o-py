@@ -7,8 +7,8 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [x] [Cache](https://m3o.com/cache) Coverage: 75%
 - [x] [Contacts](https://m3o.com/contact) Coverage: 90%
 - [x] [Database](https://m3o.com/db) Coverage: 67%
+- [x] [Answers](https://m3o.com/answer) Coverage: 95%
 - [ ] [Address](https://m3o.com/address)
-- [ ] [Answers](https://m3o.com/answer)
 - [ ] [Apps](https://m3o.com/app)
 - [ ] [Avatar](https://m3o.com/avatar)
 - [ ] [Carbon](https://m3o.com/carbon)
