@@ -1,6 +1,35 @@
-from typing import TypedDict, Union
+from typing import Union
+from pydantic import BaseModel
 from aiohttp import ClientSession
 from m3o_py import GeneralException, UnknownError
+
+
+class _DecrementReturn(BaseModel):
+    key: str
+    value: str
+
+
+class _DeleteReturn(BaseModel):
+    status: str
+
+
+class _GetReturn(BaseModel):
+    key: str
+    ttl: int
+    value: str
+
+
+class _IncrementReturn(BaseModel):
+    key: str
+    value: int
+
+
+class _ListKeysReturn(BaseModel):
+    keys: list[str]
+
+
+class _SetReturn(BaseModel):
+    status: str
 
 
 class CacheService:
@@ -8,89 +37,67 @@ class CacheService:
         self.token: str = token
         self.headers: dict = {"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"}
 
-    class DecrementReturn(TypedDict):
-        key: str
-        value: str
-
-    async def decrement(self, key: str, value: int) -> DecrementReturn | UnknownError | GeneralException:
+    async def decrement(self, key: str, value: int) -> _DecrementReturn:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Decrement",
                                     json={"key": key, "value": value}) as resp:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _DecrementReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    class DeleteReturn(TypedDict):
-        status: str
-
-    async def delete(self, key: str) -> DeleteReturn | UnknownError | GeneralException:
+    async def delete(self, key: str) -> _DeleteReturn:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Delete",
                                     json={"key": key}) as resp:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _DeleteReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    class GetReturn(TypedDict):
-        key: str
-        ttl: int
-        value: str
-
-    async def get(self, key: str) -> GetReturn | None | UnknownError | GeneralException:
+    async def get(self, key: str) -> _GetReturn | None:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Get",
                                     json={"key": key}) as resp:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _GetReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    class IncrementReturn(TypedDict):
-        key: str
-        value: int
-
-    async def increment(self, key: str, value: int) -> IncrementReturn | UnknownError | GeneralException:
+    async def increment(self, key: str, value: int) -> _IncrementReturn:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Increment",
                                     json={"key": key, "value": value}) as resp:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _IncrementReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    class ListKeysReturn(TypedDict):
-        keys: list[str]
-
-    async def list_keys(self) -> ListKeysReturn | UnknownError | GeneralException:
+    async def list_keys(self) -> _ListKeysReturn:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/ListKeys") as resp:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _ListKeysReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    class SetReturn(TypedDict):
-        status: str
-
-    async def set(self, key: str, value: str, ttl: int) -> SetReturn | UnknownError | GeneralException:
+    async def set(self, key: str, value: str, ttl: int) -> _SetReturn:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Set",
                                     json={"key": key, "value": value, "ttl": ttl}) as resp:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _SetReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())

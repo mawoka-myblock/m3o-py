@@ -18,7 +18,7 @@ test_contact = {'addresses': [{'label': 'company address', 'location': '123 stre
 
 @pytest.mark.asyncio
 async def test_create():
-    response = await cache.create(test_contact)
+    response = (await cache.create(test_contact)).dict()
     response["contact"].pop('created_at')
     response["contact"].pop('updated_at')
     global contact_id
@@ -29,7 +29,7 @@ async def test_create():
 
 @pytest.mark.asyncio
 async def test_list():
-    response = await cache.list()
+    response = (await cache.list()).dict()
     response["contacts"][0].pop('created_at')
     response["contacts"][0].pop('updated_at')
     response["contacts"][0].pop("id")
@@ -38,8 +38,7 @@ async def test_list():
 
 @pytest.mark.asyncio
 async def test_read():
-    response = (await cache.read(contact_id))["contact"]
-    print(response)
+    response = (await cache.read(contact_id)).dict()["contact"]
     response.pop('created_at')
     response.pop('updated_at')
     response.pop("id")
@@ -50,7 +49,7 @@ async def test_read():
 async def test_update():
     test_contact["name"] = "joe-updated"
     test_contact["id"] = contact_id
-    response = await cache.update(test_contact)
+    response = (await cache.update(test_contact)).dict()
     response["contact"].pop('created_at')
     response["contact"].pop('updated_at')
     assert response["contact"] == test_contact
@@ -58,4 +57,4 @@ async def test_update():
 
 @pytest.mark.asyncio
 async def test_delete():
-    assert await cache.delete(contact_id) == {}
+    assert await cache.delete(contact_id) is None

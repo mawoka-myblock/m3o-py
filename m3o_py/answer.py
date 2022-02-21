@@ -24,4 +24,4 @@ class AnswerService:
                 elif resp.status == 200:
                     return QuestionResponse(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())

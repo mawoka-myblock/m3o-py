@@ -1,5 +1,7 @@
 from typing import TypedDict, Optional
 from aiohttp import ClientSession
+from pydantic import BaseModel
+
 from m3o_py import GeneralException, UnknownError
 
 
@@ -28,16 +30,16 @@ class CreateSocialMediaInput(TypedDict):
     username: str
 
 
-class CreateContactOutput(TypedDict):
+class _CreateContactOutput(BaseModel):
     id: str
-    name: str
-    phones: Optional[CreatePhoneInput]
-    emails: Optional[CreateEmailInput]
-    links: Optional[CreateLinkInput]
-    birthday: str
-    addresses: Optional[CreateAddressesInput]
-    social_medias: Optional[CreateSocialMediaInput]
-    note: str
+    name: Optional[str]
+    phones: Optional[list[CreatePhoneInput]]
+    emails: Optional[list[CreateEmailInput]]
+    links: Optional[list[CreateLinkInput]]
+    birthday: Optional[str]
+    addresses: Optional[list[CreateAddressesInput]]
+    social_medias: Optional[list[CreateSocialMediaInput]]
+    note: Optional[str]
     created_at: str
     updated_at: str
 
@@ -65,8 +67,12 @@ class UpdateContactInput(TypedDict):
     social_medias: Optional[list[CreateSocialMediaInput]]
 
 
-class ListContactsOutput(TypedDict):
-    contacts: list[CreateContactOutput]
+class _CreateContactOutputWrapper(BaseModel):
+    contact: _CreateContactOutput
+
+
+class _ListContactsOutput(BaseModel):
+    contacts: list[_CreateContactOutput]
 
 
 class ContactsService:
@@ -74,61 +80,59 @@ class ContactsService:
         self.token: str = token
         self.headers: dict = {"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"}
 
-    class CreateContactOutputWrapper(TypedDict):
-        contact: CreateContactOutput
-
-    async def create(self, contact: CreateContactInput) -> CreateContactOutputWrapper | UnknownError | GeneralException:
+    async def create(self, contact: CreateContactInput) -> _CreateContactOutputWrapper:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/contact/Create",
                                     json=contact, headers=self.headers) as response:
                 if response.status == 500:
                     raise GeneralException(await response.json())
                 elif response.status == 200:
-                    return await response.json()
+                    return _CreateContactOutputWrapper(**await response.json())
                 else:
-                    raise UnknownError(f"Unknown error: {response.status}")
+                    raise UnknownError(f"Unknown error: {response.status}", await response.json())
 
-    async def delete(self, contact_id: str) -> None | UnknownError | GeneralException:
+    async def delete(self, contact_id: str) -> None:
         async with ClientSession() as session:
             async with session.post(f"https://api.m3o.com/v1/contact/Delete",
                                     headers=self.headers, json={"id": contact_id}) as response:
                 if response.status == 500:
                     raise GeneralException(await response.json())
                 elif response.status == 200:
-                    return await response.json()
+                    return
                 else:
-                    raise UnknownError(f"Unknown error: {response.status}")
+                    raise UnknownError(f"Unknown error: {response.status}", await response.json())
 
     async def list(self, limit: Optional[int] = None,
-                   offset: Optional[int] = None) -> ListContactsOutput | UnknownError | GeneralException:
+                   offset: Optional[int] = None) -> _ListContactsOutput | UnknownError | GeneralException:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/contact/List", headers=self.headers,
                                     json={"limit": limit, "offset": offset}) as response:
                 if response.status == 500:
                     raise GeneralException(await response.json())
                 elif response.status == 200:
-                    return await response.json()
+                    return _ListContactsOutput(**await response.json())
                 else:
-                    raise UnknownError(f"Unknown error: {response.status}")
+                    raise UnknownError(f"Unknown error: {response.status}", await response.json())
 
-    async def read(self, contact_id: str) -> CreateContactOutputWrapper | UnknownError | GeneralException:
+    async def read(self, contact_id: str) -> _CreateContactOutputWrapper | UnknownError | GeneralException:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/contact/Read", headers=self.headers,
                                     json={"id": contact_id}) as response:
                 if response.status == 500:
                     raise GeneralException(await response.json())
                 elif response.status == 200:
-                    return await response.json()
+                    return _CreateContactOutputWrapper(**await response.json())
                 else:
-                    raise UnknownError(f"Unknown error: {response.status}")
+                    raise UnknownError(f"Unknown error: {response.status}", await response.json())
 
-    async def update(self, contact: UpdateContactInput) -> CreateContactOutputWrapper | UnknownError | GeneralException:
+    async def update(self,
+                     contact: UpdateContactInput) -> _CreateContactOutputWrapper | UnknownError | GeneralException:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/contact/Update", headers=self.headers,
                                     json=contact) as response:
                 if response.status == 500:
                     raise GeneralException(await response.json())
                 elif response.status == 200:
-                    return await response.json()
+                    return _CreateContactOutputWrapper(**await response.json())
                 else:
-                    raise UnknownError(f"Unknown error: {response.status}")
+                    raise UnknownError(f"Unknown error: {response.status}", await response.json())

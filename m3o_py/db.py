@@ -1,6 +1,24 @@
 from typing import TypedDict, Union, Optional, Any
 from aiohttp import ClientSession
+from pydantic import BaseModel
+
 from m3o_py import GeneralException, UnknownError
+
+
+class _CountReturn(BaseModel):
+    count: int
+
+
+class _CreateReturn(BaseModel):
+    id: str
+
+
+class _ListTablesReturn(BaseModel):
+    tables: list[str]
+
+
+class _ReadReturn(BaseModel):
+    record: list[dict[str, Any]]
 
 
 class DbService:
@@ -8,24 +26,18 @@ class DbService:
         self.token: str = token
         self.headers: dict = {"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"}
 
-    class CountReturn(TypedDict):
-        count: int
-
-    async def count(self, table: str) -> CountReturn | UnknownError | GeneralException:
+    async def count(self, table: str) -> _CountReturn:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Count", headers=self.headers,
                                     json={"table": table}) as resp:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _CountReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    class CreateReturn(TypedDict):
-        id: str
-
-    async def create(self, table: str, record: dict) -> CreateReturn | UnknownError | GeneralException:
+    async def create(self, table: str, record: dict) -> _CreateReturn:
         """
 
         :param table: The table where the data should be stored
@@ -38,11 +50,11 @@ class DbService:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _CreateReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    async def delete(self, table: str, id: str) -> None | UnknownError | GeneralException:
+    async def delete(self, table: str, id: str) -> None:
         """
         :param table: The table where the data should be stored
         :param id: The id pf the element to be deleted
@@ -56,9 +68,9 @@ class DbService:
                 elif resp.status == 200:
                     return
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    async def drop_table(self, table: str) -> None | UnknownError | GeneralException:
+    async def drop_table(self, table: str) -> None:
         """
         :param table: The table to be dropped
         :return: None
@@ -71,9 +83,9 @@ class DbService:
                 elif resp.status == 200:
                     return
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    async def list_tables(self) -> list[str] | UnknownError | GeneralException:
+    async def list_tables(self) -> _ListTablesReturn:
         """
         :return: None
         """
@@ -82,34 +94,29 @@ class DbService:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _ListTablesReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    class ReadInputData(TypedDict):
-        id: Optional[str]
-        limit: Optional[int]
-        offest: Optional[str]
-        order: Optional[str]
-        orderBy: Optional[str]
-        query: str
-        table: str
-
-    class ReadReturn(TypedDict):
-        record: list[dict[str, Any]]
-
-    async def read(self, data: ReadInputData) -> ReadInputData | UnknownError | GeneralException:
+    async def read(self, id: Optional[str] = None,
+                   limit: Optional[int] = None,
+                   offest: Optional[str] = None,
+                   order: Optional[str] = None,
+                   orderBy: Optional[str] = None,
+                   query: str = None,
+                   table: str = None) -> _ReadReturn:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Read", headers=self.headers,
-                                    json=data) as resp:
+                                    json={"id": id, "limit": limit, "offset": offest, "order": order,
+                                          "orderBy": orderBy, "query": query, "table": table}) as resp:
                 if resp.status == 500:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
-                    return await resp.json()
+                    return _ReadReturn(**await resp.json())
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    async def rename_table(self, from_table: str, to: str) -> None | UnknownError | GeneralException:
+    async def rename_table(self, from_table: str, to: str) -> None:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/RenameTable", headers=self.headers,
                                     json={"from": from_table, "to": to}) as resp:
@@ -118,9 +125,9 @@ class DbService:
                 elif resp.status == 200:
                     return
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    async def truncate(self, table: str) -> None | UnknownError | GeneralException:
+    async def truncate(self, table: str) -> None:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Truncate", headers=self.headers,
                                     json={"table": table}) as resp:
@@ -129,9 +136,9 @@ class DbService:
                 elif resp.status == 200:
                     return
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
 
-    async def update(self, table: str, id: str, data: dict[str, Any]) -> None | UnknownError | GeneralException:
+    async def update(self, table: str, id: str, data: dict[str, Any]) -> None:
         """
         :param table: Table name. Defaults to 'default'
         :param id: The id of the record. Will overwrite if id is set in data
@@ -146,4 +153,4 @@ class DbService:
                 elif resp.status == 200:
                     return
                 else:
-                    raise UnknownError(f"Unknown error: {resp.status}")
+                    raise UnknownError(f"Unknown error: {resp.status}", await resp.json())
