@@ -18,6 +18,7 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [x] [Contacts](https://m3o.com/contact) Coverage: 90%
 - [x] [Database](https://m3o.com/db) Coverage: 67%
 - [x] [Answers](https://m3o.com/answer) Coverage: 95%
+- [x] [Jokes](https://m3o.com/joke) Coverage: 92%
 - [ ] [Address](https://m3o.com/address)
 - [ ] [Apps](https://m3o.com/app)
 - [ ] [Avatar](https://m3o.com/avatar)
@@ -41,7 +42,6 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [ ] [IDgen](https://m3o.com/id)
 - [ ] [Image](https://m3o.com/image)
 - [ ] [IP2Geo](https://m3o.com/ip)
-- [ ] [Jokes](https://m3o.com/joke)
 - [ ] [Lists](https://m3o.com/lists)
 - [ ] [Location](https://m3o.com/location)
 - [ ] [Meme Generator](https://m3o.com/memegen)
