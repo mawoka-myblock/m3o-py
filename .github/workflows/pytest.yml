@@ -28,6 +28,8 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        env:
+          M3O_KEY: ${{ secrets.M3O_KEY }}
         run: |
           pipenv install --deploy --dev
       - name: Run test suite
