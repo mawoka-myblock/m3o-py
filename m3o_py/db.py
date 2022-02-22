@@ -18,7 +18,7 @@ class _ListTablesReturn(BaseModel):
 
 
 class _ReadReturn(BaseModel):
-    record: list[dict[str, Any]]
+    records: list[dict[str, Any] | None]
 
 
 class DbService:
@@ -147,7 +147,7 @@ class DbService:
         """
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Update", headers=self.headers,
-                                    json={"table": table, "data": {**data, "id": id}}) as resp:
+                                    json={"table": table, "record": data, "id": id}) as resp:
                 if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:

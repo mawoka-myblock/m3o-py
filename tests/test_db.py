@@ -6,7 +6,7 @@ import pytest
 
 m3o_key = os.getenv('M3O_KEY')
 db = DbService(m3o_key)
-table = "default"
+table = "test" + os.urandom(2).hex()
 
 
 @pytest.mark.asyncio
@@ -32,31 +32,31 @@ async def test_update():
 
 @pytest.mark.asyncio
 async def test_count():
-    assert (await db.count(table=table)) == 1
+    assert (await db.count(table=table)).count == 1
 
 
 @pytest.mark.asyncio
 async def test_delete():
     await db.delete(table=table, id="1")
-    assert (await db.count(table=table)) == 0
+    assert (await db.count(table=table)).count == 0
 
 
 @pytest.mark.asyncio
 async def test_list_tables():
     res = (await db.list_tables()).tables
-    assert [table] in res
+    assert table in res
 
 
 @pytest.mark.asyncio
 async def test_rename_table():
     await db.rename_table(from_table=table, to="test_table_new")
-    assert (await db.list_tables()).tables == ["test_table_new"]
+    assert "test_table_new" in (await db.list_tables()).tables
 
 
 @pytest.mark.asyncio
 async def test_drop_table():
     await db.drop_table(table="test_table_new")
-    assert (await db.list_tables()).tables == []
+    assert "test_table_new" not in (await db.list_tables()).tables
 
 # def test_truncate():
 #    assert False

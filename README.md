@@ -17,12 +17,13 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 
 - [x] [Cache](https://m3o.com/cache) Coverage: 75%
 - [x] [Contacts](https://m3o.com/contact) Coverage: 90%
-- [x] [Database](https://m3o.com/db) Coverage: 67%
+- [x] [Database](https://m3o.com/db) Coverage: 75%
 - [x] [Answers](https://m3o.com/answer) Coverage: 95%
 - [x] [Jokes](https://m3o.com/joke) Coverage: 92%
 - [x] [Address](https://m3o.com/address) **NO TEST SINCE IT'S NOT FREE**
 - [x] [IDgen](https://m3o.com/id) Coverage: 90%
 - [x] [IP2Geo](https://m3o.com/ip) Coverage: 96%
+- [x] [Twitter](https://m3o.com/twitter) Coverage: 92%
 - [ ] [Apps](https://m3o.com/app)
 - [ ] [Avatar](https://m3o.com/avatar)
 - [ ] [Carbon](https://m3o.com/carbon)
@@ -72,7 +73,6 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [ ] [Thumbnail](https://m3o.com/thumbnail)
 - [ ] [Time](https://m3o.com/time)
 - [ ] [Translate](https://m3o.com/translate)
-- [ ] [Twitter](https://m3o.com/twitter)
 - [ ] [URLs](https://m3o.com/url)
 - [ ] [Users](https://m3o.com/user)
 - [ ] [Vehicle](https://m3o.com/vehicle)
