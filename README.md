@@ -22,6 +22,7 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [x] [Jokes](https://m3o.com/joke) Coverage: 92%
 - [x] [Address](https://m3o.com/address) **NO TEST SINCE IT'S NOT FREE**
 - [x] [IDgen](https://m3o.com/id) Coverage: 90%
+- [x] [IP2Geo](https://m3o.com/ip) Coverage: 96%
 - [ ] [Apps](https://m3o.com/app)
 - [ ] [Avatar](https://m3o.com/avatar)
 - [ ] [Carbon](https://m3o.com/carbon)
@@ -42,7 +43,6 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [ ] [Hello World](https://m3o.com/helloworld)
 - [ ] [Holidays](https://m3o.com/holidays)
 - [ ] [Image](https://m3o.com/image)
-- [ ] [IP2Geo](https://m3o.com/ip)
 - [ ] [Lists](https://m3o.com/lists)
 - [ ] [Location](https://m3o.com/location)
 - [ ] [Meme Generator](https://m3o.com/memegen)

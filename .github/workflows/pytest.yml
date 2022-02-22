@@ -36,7 +36,7 @@ jobs:
           M3O_KEY: ${{ secrets.M3O_KEY }}
         continue-on-error: true
         run: |
-            poetry run coverage run -m pytest --asyncio-mode=strict
+            poetry run coverage run -m pytest tests --asyncio-mode=strict
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
