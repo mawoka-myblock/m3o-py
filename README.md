@@ -3,14 +3,15 @@
 This is the python library for [M3O](https://github.com/m3o/m3o).
 
 ## Installation
+
 1. Install pipenv: `pip install pipenv`
 2. Clone the repo: `git clone https://github.com/mawoka-myblock/m3o-py`
 3. Install the dependencies: `pipenv install`
 
 ### Run the tests
+
 1. Set your environment variables: `export M3O_API_KEY=<your_api_key>`
 2. Run the tests: `pipenv run pytest tests --asyncio-mode=strict`
-
 
 ## Supported API's
 
@@ -19,7 +20,7 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [x] [Database](https://m3o.com/db) Coverage: 67%
 - [x] [Answers](https://m3o.com/answer) Coverage: 95%
 - [x] [Jokes](https://m3o.com/joke) Coverage: 92%
-- [ ] [Address](https://m3o.com/address)
+- [x] [Address](https://m3o.com/address) **NO TEST SINCE IT'S NOT FREE**
 - [ ] [Apps](https://m3o.com/app)
 - [ ] [Avatar](https://m3o.com/avatar)
 - [ ] [Carbon](https://m3o.com/carbon)
