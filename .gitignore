@@ -3,3 +3,4 @@
 .coverage
 .env*
 debug.py
+dist/

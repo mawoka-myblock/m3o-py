@@ -8,9 +8,10 @@ m3o_key = os.getenv('M3O_KEY')
 db = DbService(m3o_key)
 table = "default"
 
+
 @pytest.mark.asyncio
 async def test_create():
-    db_key = (await db.create(table=table, record={"test": "test", "id": "1"}))["id"]
+    db_key = (await db.create(table=table, record={"test": "test", "id": "1"})).dict()["id"]
     assert db_key == "1"
     with pytest.raises(GeneralException):
         await db.create(table=table, record={"test": "test", "id": "1"})
