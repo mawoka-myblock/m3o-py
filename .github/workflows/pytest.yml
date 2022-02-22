@@ -19,7 +19,7 @@ jobs:
 
       - name: Install poetry
         run: |
-          - pip install poetry
+          pip install poetry
       - id: cache-poetry
         uses: actions/cache@v1
         with:
