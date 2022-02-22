@@ -41,7 +41,7 @@ class CacheService:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Decrement",
                                     json={"key": key, "value": value}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _DecrementReturn(**await resp.json())
@@ -52,7 +52,7 @@ class CacheService:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Delete",
                                     json={"key": key}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _DeleteReturn(**await resp.json())
@@ -63,7 +63,7 @@ class CacheService:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Get",
                                     json={"key": key}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _GetReturn(**await resp.json())
@@ -74,7 +74,7 @@ class CacheService:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Increment",
                                     json={"key": key, "value": value}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _IncrementReturn(**await resp.json())
@@ -84,7 +84,7 @@ class CacheService:
     async def list_keys(self) -> _ListKeysReturn:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/ListKeys") as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _ListKeysReturn(**await resp.json())
@@ -95,7 +95,7 @@ class CacheService:
         async with ClientSession(headers=self.headers) as session:
             async with session.post("https://api.m3o.com/v1/cache/Set",
                                     json={"key": key, "value": value, "ttl": ttl}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _SetReturn(**await resp.json())

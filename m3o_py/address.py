@@ -32,7 +32,7 @@ class AddressService:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/address/LookupPostcode", json={"postcode": postcode},
                                     headers=self.headers) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _AddressReturnWrapper(**await resp.json())

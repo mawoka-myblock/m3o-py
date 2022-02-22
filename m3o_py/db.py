@@ -30,7 +30,7 @@ class DbService:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Count", headers=self.headers,
                                     json={"table": table}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _CountReturn(**await resp.json())
@@ -47,7 +47,7 @@ class DbService:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Create", headers=self.headers,
                                     json={"table": table, "record": record}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _CreateReturn(**await resp.json())
@@ -63,7 +63,7 @@ class DbService:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Delete", headers=self.headers,
                                     json={"table": table, "id": id}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return
@@ -78,7 +78,7 @@ class DbService:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/DropTable", headers=self.headers,
                                     json={"table": table}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return
@@ -91,7 +91,7 @@ class DbService:
         """
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/ListTables", headers=self.headers) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _ListTablesReturn(**await resp.json())
@@ -109,7 +109,7 @@ class DbService:
             async with session.post("https://api.m3o.com/v1/db/Read", headers=self.headers,
                                     json={"id": id, "limit": limit, "offset": offest, "order": order,
                                           "orderBy": orderBy, "query": query, "table": table}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return _ReadReturn(**await resp.json())
@@ -120,7 +120,7 @@ class DbService:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/RenameTable", headers=self.headers,
                                     json={"from": from_table, "to": to}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return
@@ -131,7 +131,7 @@ class DbService:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Truncate", headers=self.headers,
                                     json={"table": table}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return
@@ -148,7 +148,7 @@ class DbService:
         async with ClientSession() as session:
             async with session.post("https://api.m3o.com/v1/db/Update", headers=self.headers,
                                     json={"table": table, "data": {**data, "id": id}}) as resp:
-                if resp.status == 500:
+                if resp.status == 500 or resp.status == 400:
                     raise GeneralException(await resp.json())
                 elif resp.status == 200:
                     return
