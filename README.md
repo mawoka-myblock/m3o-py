@@ -4,14 +4,14 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 
 ## Installation
 
-1. Install pipenv: `pip install pipenv`
+1. Install pipenv: `pip install poetry`
 2. Clone the repo: `git clone https://github.com/mawoka-myblock/m3o-py`
-3. Install the dependencies: `pipenv install`
+3. Install the dependencies: `poetry install`
 
 ### Run the tests
 
 1. Set your environment variables: `export M3O_API_KEY=<your_api_key>`
-2. Run the tests: `pipenv run pytest tests --asyncio-mode=strict`
+2. Run the tests: `poetry run pytest tests --asyncio-mode=strict`
 
 ## Supported API's
 
