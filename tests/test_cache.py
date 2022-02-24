@@ -21,12 +21,12 @@ async def test_get():
 
 @pytest.mark.asyncio
 async def test_decrement():
-    assert (await cache.decrement("test", 1)).dict() == {"key": "test", "value": 99}
+    assert (await cache.decrement("test", 1)).dict() == {"key": "test", "value": "99"}
 
 
 @pytest.mark.asyncio
 async def test_increment():
-    assert True
+    assert (await cache.increment("test", 1)).dict() == {"key": "test", "value": 100}
 
 
 @pytest.mark.asyncio
