@@ -1,5 +1,7 @@
 # M3O-Py
 
+[![codecov](https://codecov.io/gh/mawoka-myblock/m3o-py/branch/master/graph/badge.svg?token=Y1S7YIIAY9)](https://codecov.io/gh/mawoka-myblock/m3o-py)
+
 This is the python library for [M3O](https://github.com/m3o/m3o).
 
 ## Installation
