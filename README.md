@@ -4,9 +4,40 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 
 ## Installation
 
-1. Install pipenv: `pip install poetry`
-2. Clone the repo: `git clone https://github.com/mawoka-myblock/m3o-py`
-3. Install the dependencies: `poetry install`
+```sh
+pip install m3o-py
+```
+
+## Usage
+
+You import API's like this:
+
+```python
+from m3o_py.api import apiService
+from asyncio import run
+
+api = apiSerivce("<m3o_api_key>")
+
+
+async def main():
+    await api.upload("params")
+
+
+run(main())
+```
+
+If you'd use the weather API, you'd do this:
+
+```python
+from m3o_py.weather import WeatherService
+
+weather = WeatherService("<m3o_api_key>")
+
+
+async def rpint_weather():
+    res = await weather.now(location="Oberhausen")
+    print(f"In {res.location} are {res.temp_c}°C and it feels like {res.feels_like_c}°C. ")
+```
 
 ### Run the tests
 
@@ -25,6 +56,7 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [x] [IP2Geo](https://m3o.com/ip) Coverage: 96%
 - [x] [Twitter](https://m3o.com/twitter) Coverage: 92%
 - [x] [Weather](https://m3o.com/weather) Coverage: 97%
+- [x] [Users](https://m3o.com/user) **NO TEST SINCE I AM LAZY**
 - [ ] [Apps](https://m3o.com/app)
 - [ ] [Avatar](https://m3o.com/avatar)
 - [ ] [Carbon](https://m3o.com/carbon)
@@ -75,6 +107,5 @@ This is the python library for [M3O](https://github.com/m3o/m3o).
 - [ ] [Time](https://m3o.com/time)
 - [ ] [Translate](https://m3o.com/translate)
 - [ ] [URLs](https://m3o.com/url)
-- [ ] [Users](https://m3o.com/user)
 - [ ] [Vehicle](https://m3o.com/vehicle)
 - [ ] [YouTube](https://m3o.com/youtube)
