@@ -18,7 +18,7 @@ coverage = "^6.3.2"
 pytest = "^7.0.1"
 pytest-asyncio = "^0.18.1"
 mkdocs-material = "^8.2.1"
-pymdown-extensions = "^9.2"
+pymdown-extensions = "^10.0"
 
 
 [tool.poetry.extras]
